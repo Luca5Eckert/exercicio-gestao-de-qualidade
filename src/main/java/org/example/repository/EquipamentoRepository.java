@@ -10,10 +10,21 @@ public class EquipamentoRepository {
 
     public void save(Equipamento equipamento) throws SQLException {
         String query = """
-                INSERT INTO Equipamento
-                (nome,numeroDeSerie,areaSetor,statusOperacional)
+                INSERT INTO
+                    Equipamento
+                (
+                    nome,
+                    numeroDeSerie,
+                    areaSetor,
+                    statusOperacional
+                )
                 VALUES
-                (?,?,?,?)
+                (
+                    ?,
+                    ?,
+                    ?,
+                    ?
+                )
                 """;
 
         try(Connection conn = Conexao.conectar();
@@ -37,13 +48,16 @@ public class EquipamentoRepository {
 
     public Optional<Equipamento> findById(Long id) throws SQLException {
         String query = """
-                SELECT id
-                        , nome
-                        , numeroDeSerie
-                        , areaSetor
-                        , statusOperacional
-                FROM Equipamento
-                WHERE id = ?
+                SELECT
+                        id
+                       , nome
+                       , numeroDeSerie
+                       , areaSetor
+                       , statusOperacional
+                FROM
+                    Equipamento
+                WHERE
+                    id = ?
                 """;
 
         try(Connection conn = Conexao.conectar();
