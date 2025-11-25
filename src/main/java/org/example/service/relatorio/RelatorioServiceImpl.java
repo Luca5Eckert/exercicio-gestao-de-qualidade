@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class RelatorioServiceImpl implements RelatorioService{
+
     @Override
     public List<RelatorioParadaDTO> gerarRelatorioTempoParada() throws SQLException {
         return List.of();
