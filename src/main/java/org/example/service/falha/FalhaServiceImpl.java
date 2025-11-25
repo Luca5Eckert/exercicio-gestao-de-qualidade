@@ -27,7 +27,7 @@ public class FalhaServiceImpl implements FalhaService{
         falha.setStatus("ABERTA");
 
         if(falha.getCriticidade().equals("CRITICA")){
-            equipamento.setStatusOperacional("EM_ANDAMENTO");
+            equipamento.setStatusOperacional("EM_MANUTENCAO");
 
             equipamentoRepository.updateStatus(
                     equipamento.getId(),
