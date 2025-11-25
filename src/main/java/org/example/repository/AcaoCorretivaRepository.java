@@ -6,10 +6,11 @@ import org.example.model.AcaoCorretiva;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class AcaoCorretivaRepository {
 
-    public AcaoCorretiva save(AcaoCorretiva acaoCorretiva) {
+    public void save(AcaoCorretiva acaoCorretiva) {
 
         String query = """
                 INSERT INTO
@@ -45,7 +46,6 @@ public class AcaoCorretivaRepository {
 
             if(rs.next()){
                 acaoCorretiva.setId(rs.getLong(1));
-                return acaoCorretiva;
             }
 
         } catch (SQLException e) {
