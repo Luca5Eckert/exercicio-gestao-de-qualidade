@@ -3,6 +3,10 @@ import org.example.dto.EquipamentoContagemFalhasDTO;
 import org.example.dto.FalhaDetalhadaDTO;
 import org.example.dto.RelatorioParadaDTO;
 import org.example.model.Equipamento;
+import org.example.repository.AcaoCorretivaRepository;
+import org.example.repository.EquipamentoRepository;
+import org.example.repository.FalhaRepository;
+import org.example.repository.RelatorioRepository;
 import org.example.service.relatorio.RelatorioService;
 import org.example.service.relatorio.RelatorioServiceImpl;
 import org.junit.jupiter.api.*;
@@ -114,7 +118,12 @@ public class RelatorioServiceTest {
             stmt.execute(SQL_CREATE_ACAO);
         }
 
-        service = new RelatorioServiceImpl();
+        service = new RelatorioServiceImpl(
+                new RelatorioRepository(),
+                new FalhaRepository(),
+                new EquipamentoRepository(),
+                new AcaoCorretivaRepository()
+        );
     }
 
     @AfterAll

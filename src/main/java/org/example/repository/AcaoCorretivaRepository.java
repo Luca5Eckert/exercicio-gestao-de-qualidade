@@ -55,7 +55,8 @@ public class AcaoCorretivaRepository {
 
     }
 
-    public List<String> buscarAcaoCorretivaPorIdFalha(Long idFalha) throws SQLException {
+
+    public List<String> findAllByFalhaId(long falhaId) throws SQLException {
         List<String> acoes = new ArrayList<>();
 
         String query = """
@@ -68,7 +69,7 @@ public class AcaoCorretivaRepository {
         try(Connection conn = Conexao.conectar();
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
-            stmt.setLong(1,idFalha);
+            stmt.setLong(1, falhaId);
 
             ResultSet rs = stmt.getGeneratedKeys();
 
@@ -80,6 +81,5 @@ public class AcaoCorretivaRepository {
         }
 
         return acoes;
-
     }
 }

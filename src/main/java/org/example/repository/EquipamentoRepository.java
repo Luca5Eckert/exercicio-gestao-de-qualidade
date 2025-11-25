@@ -4,6 +4,9 @@ import org.example.database.Conexao;
 import org.example.model.Equipamento;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class EquipamentoRepository {
@@ -105,5 +108,55 @@ public class EquipamentoRepository {
 
         }
 
+    }
+
+    public List<Equipamento> buscarEquipamentosSemFalhasPorPeriodo(LocalDate dataInicio, LocalDate datafim) throws SQLException {
+        String query = """
+                SELECT
+                        e.id
+                       , e.nome
+                       , e.numeroDeSerie
+                       , e.areaSetor
+                       , e.statusOperacional
+                FROM
+                    Equipamento e
+                LEFT JOIN
+                    Falha f ON e.id = f.equipamentoId
+                WHERE
+                    dataHoraOcorrencia <= ?
+                    OR
+                    dataHoraOcorrencia >= ?
+                    AND
+                    f.id IS NULL
+                """;
+
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)
+        ){
+
+            stmt.setDate(1, Date.valueOf(datafim));
+            stmt.setDate(2, Date.valueOf(dataInicio));
+
+            try(ResultSet rs = stmt.executeQuery()){
+
+                List<Equipamento> equipamentos = new ArrayList<>();
+
+                while(rs.next()){
+                    Equipamento equipamento =  new Equipamento(
+                            rs.getLong("id"),
+                            rs.getString("nome"),
+                            rs.getString("numeroDeSerie"),
+                            rs.getString("areaSetor"),
+                            rs.getString("statusOperacional")
+                    );
+                    equipamentos.add(equipamento);
+                }
+
+                return equipamentos;
+            }
+
+
+        }
     }
 }
