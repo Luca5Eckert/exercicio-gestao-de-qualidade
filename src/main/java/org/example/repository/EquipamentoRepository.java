@@ -85,7 +85,7 @@ public class EquipamentoRepository {
     }
 
 
-    public void updateStatus(Long id, Equipamento equipamento) throws SQLException {
+    public void updateStatus(long id, String status) throws SQLException {
         String query = """
                 UPDATE
                     Equipamento
@@ -98,7 +98,7 @@ public class EquipamentoRepository {
             PreparedStatement stmt = conn.prepareStatement(query)
         ){
 
-            stmt.setString(1, equipamento.getStatusOperacional());
+            stmt.setString(1, status);
             stmt.setLong(2, id);
 
             stmt.executeUpdate();

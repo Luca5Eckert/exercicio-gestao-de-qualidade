@@ -1,5 +1,8 @@
 import org.example.database.Conexao;
 import org.example.model.AcaoCorretiva;
+import org.example.repository.AcaoCorretivaRepository;
+import org.example.repository.EquipamentoRepository;
+import org.example.repository.FalhaRepository;
 import org.example.service.acaocorretiva.AcaoCorretivaService;
 import org.example.service.acaocorretiva.AcaoCorretivaServiceImpl;
 import org.junit.jupiter.api.*;
@@ -137,7 +140,11 @@ public class AcaoCorretivaServiceIntegrationTest {
             stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
         }
 
-        acaoService = new AcaoCorretivaServiceImpl();
+        acaoService = new AcaoCorretivaServiceImpl(
+                new AcaoCorretivaRepository(),
+                new FalhaRepository(),
+                new EquipamentoRepository()
+        );
     }
 
 

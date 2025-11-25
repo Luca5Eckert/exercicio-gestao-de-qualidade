@@ -40,12 +40,13 @@ public class AcaoCorretivaRepository {
             stmt.setTimestamp(3, Timestamp.valueOf(acaoCorretiva.getDataHoraFim()));
             stmt.setString(4, acaoCorretiva.getResponsavel());
             stmt.setString(5, acaoCorretiva.getDescricaoArea());
+
             stmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
-
-            if(rs.next()){
-                acaoCorretiva.setId(rs.getLong(1));
+            try(ResultSet rs = stmt.getGeneratedKeys()){
+                if(rs.next()){
+                    acaoCorretiva.setId(rs.getLong(1));
+                }
             }
 
         } catch (SQLException e) {

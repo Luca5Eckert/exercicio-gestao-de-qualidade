@@ -31,7 +31,7 @@ public class FalhaServiceImpl implements FalhaService{
 
             equipamentoRepository.updateStatus(
                     equipamento.getId(),
-                    equipamento
+                    equipamento.getStatusOperacional()
             );
         }
 

@@ -8,6 +8,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FalhaRepository {
 
@@ -113,4 +114,78 @@ public class FalhaRepository {
     }
 
 
+    public Optional<Falha> findById(Long falhaId) throws SQLException {
+        String query = """
+                SELECT
+                    id
+                    ,equipamentoId
+                    ,dataHoraOcorrencia
+                    ,descricao
+                    ,criticidade
+                    ,status
+                    ,tempoParadaHoras
+                FROM
+                    Falha
+                WHERE
+                    id = ?
+                """;
+
+        try(Connection connection = Conexao.conectar();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ){
+
+            preparedStatement.setLong(1, falhaId);
+
+            try(ResultSet rs = preparedStatement.executeQuery()){
+
+                if (rs.next()) {
+
+                    Long id = rs.getLong("id");
+                    Long equipamentoId = rs.getLong("equipamentoId");
+                    LocalDateTime dataHoraOcorrencia = rs.getTimestamp("dataHoraOcorrencia").toLocalDateTime();
+                    String descricao = rs.getString("descricao");
+                    String criticidade = rs.getString("criticidade");
+                    String status = rs.getString("status");
+                    BigDecimal tempoParadaHoras = rs.getBigDecimal("tempoParadaHoras");
+
+                    Falha falha = new Falha(
+                            id,
+                            equipamentoId,
+                            dataHoraOcorrencia,
+                            descricao,
+                            criticidade,
+                            status,
+                            tempoParadaHoras
+                    );
+
+                    return Optional.of(falha);
+                }
+            }
+
+            return Optional.empty();
+
+        }
+
+    }
+
+    public void updateStatus(long id, String status) throws SQLException {
+        String query = """
+                UPDATE
+                    Falha
+                SET
+                    status = ?
+                WHERE
+                    id  = ?
+                """;
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)
+        ){
+
+            stmt.setString(1, status);
+            stmt.setLong(2, id);
+
+            stmt.executeUpdate();
+
+        }
+    }
 }
