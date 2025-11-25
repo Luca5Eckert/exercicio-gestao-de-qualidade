@@ -3,8 +3,8 @@ import org.example.dto.EquipamentoContagemFalhasDTO;
 import org.example.dto.FalhaDetalhadaDTO;
 import org.example.dto.RelatorioParadaDTO;
 import org.example.model.Equipamento;
-import org.example.service.relatorioservice.RelatorioService;
-import org.example.service.relatorioservice.RelatorioServiceImpl;
+import org.example.service.relatorio.RelatorioService;
+import org.example.service.relatorio.RelatorioServiceImpl;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;

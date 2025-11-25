@@ -1,4 +1,4 @@
-package org.example.service.relatorioservice;
+package org.example.service.relatorio;
 
 import org.example.dto.EquipamentoContagemFalhasDTO;
 import org.example.dto.FalhaDetalhadaDTO;

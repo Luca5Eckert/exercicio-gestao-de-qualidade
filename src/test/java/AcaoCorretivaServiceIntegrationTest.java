@@ -50,7 +50,7 @@ public class AcaoCorretivaServiceIntegrationTest {
                 CONSTRAINT chk_status_falha CHECK (
                     status IN ('ABERTA','EM_ANDAMENTO','RESOLVIDA')
                 ),
-                
+            
                 CONSTRAINT fk_falha_equip FOREIGN KEY (equipamentoId)
                 REFERENCES Equipamento(id)
                 ON DELETE RESTRICT
