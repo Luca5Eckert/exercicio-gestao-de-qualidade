@@ -21,12 +21,19 @@ public class FalhaServiceImpl implements FalhaService{
 
     @Override
     public Falha registrarNovaFalha(Falha falha) throws SQLException {
-        equipamentoRepository.findById(falha.getEquipamentoId())
+        Equipamento equipamento = equipamentoRepository.findById(falha.getEquipamentoId())
                 .orElseThrow( () -> new IllegalArgumentException("Equipamento não encontrado!") );
 
-        String status = falha.getCriticidade().equals("CRITICA") ? "EM_MANUTENCAO" : "ABERTA";
+        falha.setStatus("ABERTA");
 
-        falha.setStatus(status);
+        if(falha.getCriticidade().equals("CRITICA")){
+            equipamento.setStatusOperacional("EM_ANDAMENTO");
+
+            equipamentoRepository.updateStatus(
+                    equipamento.getId(),
+                    equipamento
+            );
+        }
 
         falhaRepository.save(falha);
 

@@ -1,5 +1,6 @@
 import org.example.database.Conexao;
 import org.example.model.Equipamento;
+import org.example.repository.EquipamentoRepository;
 import org.example.service.equipamento.EquipamentoService;
 import org.example.service.equipamento.EquipamentoServiceImpl;
 import org.junit.jupiter.api.*;
@@ -87,7 +88,9 @@ public class EquipamentoServiceIntegrationTest {
         // 6. Instancia o Service
         // Isso fará com que o Service crie seu Repositório,
         // que por sua vez usará ConexaoBanco.conectar()
-        equipamentoService = new EquipamentoServiceImpl();
+        equipamentoService = new EquipamentoServiceImpl(
+                new EquipamentoRepository()
+        );
     }
 
     @Test

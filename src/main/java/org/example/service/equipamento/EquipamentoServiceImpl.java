@@ -15,6 +15,8 @@ public class EquipamentoServiceImpl implements EquipamentoService{
 
     @Override
     public Equipamento criarEquipamento(Equipamento equipamento) throws SQLException {
+        equipamento.setStatusOperacional("OPERACIONAL");
+
         equipamentoRepository.save(equipamento);
 
         return equipamento;

@@ -1,5 +1,7 @@
 import org.example.database.Conexao;
 import org.example.model.Falha;
+import org.example.repository.EquipamentoRepository;
+import org.example.repository.FalhaRepository;
 import org.example.service.equipamento.EquipamentoService;
 import org.example.service.equipamento.EquipamentoServiceImpl;
 import org.example.service.falha.FalhaService;
@@ -16,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FalhaServiceIntegrationTest {
 
     private FalhaService falhaService;
-    private EquipamentoService equipamentoService;
 
     /** SQL — Criação da tabela Falha */
     private static final String SQL_CREATE_TABLE_FALHA =
@@ -93,8 +94,13 @@ public class FalhaServiceIntegrationTest {
         }
 
         // serviços reais
-        equipamentoService = new EquipamentoServiceImpl();
-        falhaService = new FalhaServiceImpl(); // alunos criam
+        EquipamentoService equipamentoService = new EquipamentoServiceImpl(
+                new EquipamentoRepository()
+        );
+        falhaService = new FalhaServiceImpl(
+                new EquipamentoRepository(),
+                new FalhaRepository()
+        ); // alunos criam
     }
 
     // -----------------------------------------------------------------------------------
@@ -104,7 +110,7 @@ public class FalhaServiceIntegrationTest {
     void deveRegistrarFalhaCritica() throws SQLException {
 
         // ARRANGE — criar equipamento
-        Long equipId;
+        long equipId;
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(
                      """
